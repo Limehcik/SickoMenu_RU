@@ -156,8 +156,8 @@ namespace Menu {
 			ImVec4 DiddyCol = ImVec4(0.79f, 0.03f, 1.f, 1.f);
 			if (State.AprilFoolsMode) {
 				ImGui::SameLine(0.f, 0.f);
-				if (State.DiddyPartyMode) ImGui::TextColored(DiddyCol, " [Diddy Party Mode]");
-				else ImGui::TextColored(DiddyCol, IsChatCensored() || IsStreamerMode() ? " [F***son Mode]" : " [Fuckson Mode]");
+				if (State.DiddyPartyMode) ImGui::TextColored(DiddyCol, " [Режим Вечеринки Дидди]");
+				else ImGui::TextColored(DiddyCol, IsChatCensored() || IsStreamerMode() ? " [Х**в Режим]" : " [Хуев Режим]");
 			}
 			ImGui::SameLine(ImGui::GetWindowWidth() - 19 * State.dpiScale);
 			if (AnimatedButton("-")) State.ShowMenu = false; //minimize button
@@ -165,7 +165,7 @@ namespace Menu {
 			ImGui::BeginChild("###SickoMenu", ImVec2(90 * State.dpiScale, 0), true, ImGuiWindowFlags_NoBackground);
 			// Search field
 			ImGui::SetNextItemWidth(90 * State.dpiScale); // Adjust the width of the input box
-			if (InputStringWithHint("##Search", "Search...", &searchQuery) && State.AprilFoolsMode) {
+			if (InputStringWithHint("##Поиск", "Поиск...", &searchQuery) && State.AprilFoolsMode) {
 				if (ToLower(searchQuery) == StrRev("nosduh")) {
 					State.AprilFoolsMode = !State.AprilFoolsMode;
 					if (!State.AprilFoolsMode) State.DiddyPartyMode = false;
@@ -174,40 +174,40 @@ namespace Menu {
 					State.DiddyPartyMode = !State.DiddyPartyMode;
 				}
 			}
-			if (ImGui::Selectable("About", openAbout)) {
+			if (ImGui::Selectable("Информация", openAbout)) {
 				CloseAllOtherTabs(Tabs::About);
 			}
-			if (ImGui::Selectable("Settings", openSettings)) {
+			if (ImGui::Selectable("Настройки", openSettings)) {
 				CloseAllOtherTabs(Tabs::Settings);
 			}
-			if (ImGui::Selectable("Game", openGame)) {
+			if (ImGui::Selectable("Игра", openGame)) {
 				CloseAllOtherTabs(Tabs::Game);
 			}
-			if (ImGui::Selectable("Self", openSelf)) {
+			if (ImGui::Selectable("Игрок", openSelf)) {
 				CloseAllOtherTabs(Tabs::Self);
 			}
-			if (ImGui::Selectable("Radar", openRadar)) {
+			if (ImGui::Selectable("Радар", openRadar)) {
 				CloseAllOtherTabs(Tabs::Radar);
 			}
-			if (ImGui::Selectable("Replay", openReplay)) {
+			if (ImGui::Selectable("Повтор", openReplay)) {
 				CloseAllOtherTabs(Tabs::Replay);
 			}
 			if (ImGui::Selectable("ESP", openEsp)) {
 				CloseAllOtherTabs(Tabs::Esp);
 			}
-			if ((IsInGame() || IsInLobby()) && ImGui::Selectable("Players", openPlayers)) {
+			if ((IsInGame() || IsInLobby()) && ImGui::Selectable("Игроки", openPlayers)) {
 				CloseAllOtherTabs(Tabs::Players);
 			}
-			if ((IsInGame() && GetPlayerData(*Game::pLocalPlayer)->fields.Tasks != NULL) && ImGui::Selectable("Tasks", openTasks)) {
+			if ((IsInGame() && GetPlayerData(*Game::pLocalPlayer)->fields.Tasks != NULL) && ImGui::Selectable("Задания", openTasks)) {
 				CloseAllOtherTabs(Tabs::Tasks);
 			}
-			if (IsInGame() && ShipStatus__TypeInfo->static_fields->Instance != NULL && ImGui::Selectable("Sabotage", openSabotage)) {
+			if (IsInGame() && ShipStatus__TypeInfo->static_fields->Instance != NULL && ImGui::Selectable("Саботажи", openSabotage)) {
 				CloseAllOtherTabs(Tabs::Sabotage);
 			}
-			if ((IsInGame() && !State.mapDoors.empty()) && ImGui::Selectable("Doors", openDoors)) {
+			if ((IsInGame() && !State.mapDoors.empty()) && ImGui::Selectable("Двери", openDoors)) {
 				CloseAllOtherTabs(Tabs::Doors);
 			}
-			if (IsHost() && ImGui::Selectable("Host", openHost)) {
+			if (IsHost() && ImGui::Selectable("Хост", openHost)) {
 				CloseAllOtherTabs(Tabs::Host);
 			}
 #ifdef _DEBUG
@@ -221,7 +221,7 @@ namespace Menu {
 			ImVec4 GreenCol = ImVec4(0.f, 1.f, 0.f, 1.f);
 			if (!isPanicWarning) {
 				ImGui::SetCursorPos(ImVec2(ImGui::GetWindowWidth() - 90 * State.dpiScale, ImGui::GetWindowHeight() - 20 * State.dpiScale));
-				if (!State.AprilFoolsMode && ColoredButton(PanicCol, "Disable Menu")) {
+				if (!State.AprilFoolsMode && ColoredButton(PanicCol, "Отключить Меню")) {
 					isPanicWarning = State.PanicWarning;
 					if (!State.PanicWarning) State.PanicMode = true;
 				}
@@ -240,16 +240,16 @@ namespace Menu {
 					ImGui::TextColored(PanicCol, "Keybind!");
 				}
 				else {
-					ImGui::TextColored(PanicCol, ("Press " + (std::string)KeyBinds::ToString(State.KeyBinds.Toggle_Sicko)).c_str());
-					ImGui::TextColored(PanicCol, ("to re-enable!"));
+					ImGui::TextColored(PanicCol, ("Нажмите " + (std::string)KeyBinds::ToString(State.KeyBinds.Toggle_Sicko)).c_str());
+					ImGui::TextColored(PanicCol, ("Для включения!"));
 				}
-				ImGui::TextColored(PanicCol, "Continue?");
-				if (ColoredButton(PanicCol, "Yes")) {
+				ImGui::TextColored(PanicCol, "Продолжить?");
+				if (ColoredButton(PanicCol, "Да")) {
 					isPanicWarning = false;
 					State.PanicMode = true;
 				}
 				ImGui::SameLine();
-				if (ColoredButton(GreenCol, "No")) {
+				if (ColoredButton(GreenCol, "Нет")) {
 					isPanicWarning = false;
 				}
 			}

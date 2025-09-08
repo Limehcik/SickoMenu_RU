@@ -169,7 +169,7 @@ namespace SabotageTab {
                 }
             }
             ImGui::SameLine();
-            if (ToggleButton("Отключить Свет [Авто Отключение Переключателей]", &State.DisableLightSwitches)) State.Save();
+            if (ToggleButton("Отключить Свет [Авто Переключение]", &State.DisableLightSwitches)) State.Save();
 
             if (ToggleButton("Отключение Починки Связи", &State.DisableComms)) State.Save();
 

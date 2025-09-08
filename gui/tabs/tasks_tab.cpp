@@ -62,7 +62,7 @@ namespace TasksTab {
 			//}
 
 			GameOptions options;
-			if (!options.GetBool(app::BoolOptionNames__Enum::VisualTasks) && ToggleButton("Обход выключенных анимаций выключен", &State.BypassVisualTasks))
+			if (!options.GetBool(app::BoolOptionNames__Enum::VisualTasks) && ToggleButton("Обход выключенных анимаций", &State.BypassVisualTasks))
 				State.Save();
 
 			if (options.GetGameMode() == GameModes__Enum::Normal && !options.GetBool(app::BoolOptionNames__Enum::VisualTasks)) {

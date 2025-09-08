@@ -75,7 +75,7 @@ namespace AboutTab {
             }
             ImGui::SameLine();
             if (ColoredButton(State.RgbColor, "Донат переводчику")) {
-                OpenLink("");
+                OpenLink("https://www.donationalerts.com/r/limehcik");
             }
 
             ImGui::Text("Заходи в Discord сервер для поддержки, сообщения о багах, и сникпиках!");

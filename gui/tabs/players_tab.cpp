@@ -879,14 +879,14 @@ namespace PlayersTab {
 
 			if (openTrolling && selectedPlayer.has_value()) {
 				if ((IsHost() && IsInGame()) || !State.SafeMode) {
-					if (AnimatedButton("Send Blank Chat As")) {
+					if (AnimatedButton("Отправит Пустое Сообщение")) {
 						for (auto p : selectedPlayers) {
 							if (IsInGame()) State.rpcQueue.push(new RpcSendChatNote(p.validate().get_PlayerControl(), 1));
 							if (IsInLobby()) State.lobbyRpcQueue.push(new RpcSendChatNote(p.validate().get_PlayerControl(), 1));
 						}
 					}
 					ImGui::SameLine();
-					if (AnimatedButton("Spam Blank Chat As")) {
+					if (AnimatedButton("Поспамит Пустыми Сообщениями")) {
 						for (auto p : selectedPlayers) {
 							if (IsInGame()) State.rpcQueue.push(new RpcSpamChatNote(p.validate().get_PlayerControl()));
 							if (IsInLobby()) State.lobbyRpcQueue.push(new RpcSpamChatNote(p.validate().get_PlayerControl()));
@@ -1052,7 +1052,7 @@ namespace PlayersTab {
 					}
 				}
 
-				if (!State.SafeMode && IsInLobby() && AnimatedButton(selectedPlayers.size() == 1 ? "Дать Игроку Ноулкп" : "Дать Игрокам Ноуклип")) {
+				if (!State.SafeMode && IsInLobby() && AnimatedButton(selectedPlayers.size() == 1 ? "Дать Игроку Ноуклип" : "Дать Игрокам Ноуклип")) {
 					for (auto p : selectedPlayers) {
 						if (p.has_value() && p.validate().is_LocalPlayer()) State.NoClip = true;
 						else State.lobbyRpcQueue.push(new RpcMurderLoop(*Game::pLocalPlayer, p.validate().get_PlayerControl(), 1, true));
@@ -1491,7 +1491,7 @@ namespace PlayersTab {
 				}
 				ImGui::SameLine();
 				{
-					if (convert_from_string(selectedPlayer.get_PlayerData()->fields.FriendCode) != "" && AnimatedButton("скопир. Код Друга"))
+					if (convert_from_string(selectedPlayer.get_PlayerData()->fields.FriendCode) != "" && AnimatedButton("Скопир. Код Друга"))
 						ClipboardHelper_PutClipboardString(selectedPlayer.get_PlayerData()->fields.FriendCode, NULL);
 				}
 
