@@ -9,30 +9,30 @@ namespace ReplayTab {
 		ImGui::SameLine(100 * State.dpiScale);
 		ImGui::BeginChild("###Replay", ImVec2(500 * State.dpiScale, 0), true, ImGuiWindowFlags_NoBackground);
 		ImGui::Dummy(ImVec2(4, 4) * State.dpiScale);
-		if (ToggleButton("Show Replay", &State.ShowReplay)) {
+		if (ToggleButton("Показать Повтор", &State.ShowReplay)) {
 			State.Save();
 		}
-		if (ToggleButton("Show Only Last", &State.Replay_ShowOnlyLastSeconds))
+		if (ToggleButton("Показывать Только Последние", &State.Replay_ShowOnlyLastSeconds))
 		{
 			State.Save();
 		}
 		ImGui::SameLine();
-		if (SliderIntV2("Seconds", &State.Replay_LastSecondsValue, 1, 1200, "%d", ImGuiSliderFlags_AlwaysClamp))
+		if (SliderIntV2("Секунд", &State.Replay_LastSecondsValue, 1, 1200, "%d", ImGuiSliderFlags_AlwaysClamp))
 		{
 			State.Save();
 		}
 
-		if (ToggleButton("Clear After Meeting", &State.Replay_ClearAfterMeeting))
+		if (ToggleButton("Очистить После Голосования", &State.Replay_ClearAfterMeeting))
 		{
 			State.Save();
 		}
 
-		if (ToggleButton("Draw Player Icons", &State.Replay_DrawIcons))
+		if (ToggleButton("Отрисовывать Иконки Игроков", &State.Replay_DrawIcons))
 		{
 			State.Save();
 		}
 
-		if (ImGui::ColorEdit4("Replay Map Color",
+		if (ImGui::ColorEdit4("Цвета Карты Повтора",
 			(float*)&State.SelectedReplayMapColor,
 			ImGuiColorEditFlags__OptionsDefault
 			| ImGuiColorEditFlags_NoInputs
