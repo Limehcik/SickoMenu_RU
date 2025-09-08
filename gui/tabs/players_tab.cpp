@@ -944,7 +944,7 @@ namespace PlayersTab {
 						else if (IsInLobby())
 							queue = &State.lobbyRpcQueue;
 
-						if (!State.activeImpersonation && AnimatedButton("Олицетворять")) {
+						if (!State.activeImpersonation && AnimatedButton("Скопировать Наряд")) {
 							if (queue != nullptr) {
 								if (IsHost() || !State.SafeMode)
 									queue->push(new RpcForceColor(*Game::pLocalPlayer, colorId));
