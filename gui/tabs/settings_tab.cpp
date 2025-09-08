@@ -67,7 +67,7 @@ namespace SettingsTab {
 			if (ToggleButton("Подтверждение для Отключения", &State.PanicWarning)) {
 				State.Save();
 			}
-			ImGui::SameLine();
+
 			if (ToggleButton("Дополнительные Команды", &State.ExtraCommands)) {
 				State.Save();
 			}
