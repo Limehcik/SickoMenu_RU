@@ -506,7 +506,7 @@ namespace GameTab {
             }
             if (IsHost() || !State.SafeMode) {
                 if (CustomListBoxInt("Режим Спама в чат", &State.ChatSpamMode,
-                    { State.SafeMode ? "С сообщением (ТОЛЬКО для самоспама)" : "С Сообщением", "Пустой Чат", State.SafeMode ? "Самосообщение + Пустой Чат" : "Сообщение + Пустой Чат" })) State.Save();
+                    { State.SafeMode ? "С сообщением (ТОЛЬКО для самоспама)" : "С Сообщением", "Пустые Сообщения", State.SafeMode ? "Самосообщение + Пустые Сообщения" : "Сообщение + Пустой Чат" })) State.Save();
             }
 
             if (std::find(State.ChatPresets.begin(), State.ChatPresets.end(), State.chatMessage) == State.ChatPresets.end() && AnimatedButton("Сохранить сообщение")) {
@@ -1078,31 +1078,31 @@ namespace GameTab {
                     ImGui::Text("Визуальные Задания: %s", (options.GetBool(app::BoolOptionNames__Enum::VisualTasks) ? "Включены" : "Выключены"));
                     switch (options.GetInt(app::Int32OptionNames__Enum::TaskBarMode)) {
                     case 0:
-                        ImGui::Text("Task Bar Updates: Always");
+                        ImGui::Text("Обновление Шкалы: Постоянно");
                         break;
                     case 1:
-                        ImGui::Text("Task Bar Updates: Meetings");
+                        ImGui::Text("Обновление Шкалы: На голосовании");
                         break;
                     case 2:
-                        ImGui::Text("Task Bar Updates: Never");
+                        ImGui::Text("Обновление Шкалы: Никогда");
                         break;
                     default:
-                        ImGui::Text("Task Bar Updates: Other");
+                        ImGui::Text("Обновление Шкалы: Другое");
                         break;
                     }
-                    ImGui::Text("Confirm Ejects: %s", (options.GetBool(app::BoolOptionNames__Enum::ConfirmImpostor) ? "On" : "Off"));
+                    ImGui::Text("Показ Ролей: %s", (options.GetBool(app::BoolOptionNames__Enum::ConfirmImpostor) ? "Включено" : "Выключено"));
                     switch (options.GetInt(app::Int32OptionNames__Enum::KillDistance)) {
                     case 0:
-                        ImGui::Text("Kill Distance: Short");
+                        ImGui::Text("Дистанция Убийства: Короткая");
                         break;
                     case 1:
-                        ImGui::Text("Kill Distance: Medium");
+                        ImGui::Text("Дистанция Убийства: Средняя");
                         break;
                     case 2:
-                        ImGui::Text("Kill Distance: Long");
+                        ImGui::Text("Дистанция Убийства: Большая");
                         break;
                     default:
-                        ImGui::Text("Kill Distance: Other");
+                        ImGui::Text("Дистанция Убийства: Другая");
                         break;
                     }
 

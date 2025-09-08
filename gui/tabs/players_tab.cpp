@@ -961,7 +961,7 @@ namespace PlayersTab {
 							}
 						}
 						ImGui::SetNextItemWidth(300 * State.dpiScale);
-						if (ImGui::CollapsingHeader("Похититель косметики")) {
+						if (ImGui::CollapsingHeader("Кража косметики")) {
 							if (AnimatedButton("Никнейм"))
 								ImpersonateName(selectedPlayer.get_PlayerData());
 							ImGui::SameLine();
@@ -1081,7 +1081,7 @@ namespace PlayersTab {
 						}
 					}
 					ImGui::SameLine();
-					if (AnimatedButton("Изгнание")) {
+					if (AnimatedButton("Выкинуть")) {
 						for (auto p : selectedPlayers) {
 							if (IsInGame()) State.rpcQueue.push(new RpcExiled(p.validate().get_PlayerControl(), true));
 							else State.lobbyRpcQueue.push(new RpcExiled(p.validate().get_PlayerControl(), true));
@@ -1254,7 +1254,7 @@ namespace PlayersTab {
 						}
 					}
 					ImGui::SameLine();
-					if (AnimatedButton("Преврать Обратно Всех"))
+					if (AnimatedButton("Преврат. Обратно Всех"))
 					{
 						for (auto player : GetAllPlayerControl()) {
 							if (IsInGame()) {
@@ -1316,7 +1316,7 @@ namespace PlayersTab {
 				}
 				ImGui::SameLine();
 				if (!selectedPlayer.is_LocalPlayer() && !State.SafeMode) {
-					if (AnimatedButton("ТП к Тебе")) {
+					if (AnimatedButton("ТП к Себе")) {
 						for (auto p : selectedPlayers) {
 							if (IsInGame())
 								State.rpcQueue.push(new RpcForceSnapTo(p.validate().get_PlayerControl(), GetTrueAdjustedPosition(*Game::pLocalPlayer)));
