@@ -165,7 +165,7 @@ namespace GameTab {
 
         if (GameOptions().HasOptions() && (IsInGame() || IsInLobby())) {
             ImGui::SameLine();
-            if (TabGroup("Настрой", openOptions)) {
+            if (TabGroup("Настройки", openOptions)) {
                 CloseOtherGroups(Groups::Options);
             }
         }
@@ -523,7 +523,7 @@ namespace GameTab {
                 for (size_t i = 0; i < State.ChatPresets.size(); i++) {
                     presetVector[i] = State.ChatPresets[i].c_str();
                 }
-                CustomListBoxInt("Сохранить сообщение", &selectedPresetIndex, presetVector);
+                CustomListBoxInt("Сохраненные сообщения", &selectedPresetIndex, presetVector);
                 auto msg = State.ChatPresets[selectedPresetIndex];
                 if (AnimatedButton("Вставить в Поле для Сообщения"))
                 {
@@ -543,7 +543,6 @@ namespace GameTab {
             if (ToggleButton("Добавлять Читеров в Черный Список", &State.SMAC_AddToBlacklist)) State.Save();
             ImGui::SameLine();
             if (ToggleButton("Наказание Черного списка", &State.SMAC_PunishBlacklist)) State.Save();
-            ImGui::SameLine();
             if (ToggleButton("Игнорировать Белый Список", &State.SMAC_IgnoreWhitelist)) State.Save();
             if (State.SMAC_PunishBlacklist) {
                 ImGui::Text("Черный Список");
@@ -708,7 +707,7 @@ namespace GameTab {
             if (IsHost()) {
                 ImGui::Dummy(ImVec2(5, 5) * State.dpiScale);
                 if (((IsInGame() && Object_1_IsNotNull((Object_1*)*Game::pShipStatus)) || (IsInLobby() && Object_1_IsNotNull((Object_1*)*Game::pLobbyBehaviour)))
-                    && AnimatedButton(IsInLobby() ? "удалить Лобби" : "Удалить Карту")) {
+                    && AnimatedButton(IsInLobby() ? "Удалить Лобби" : "Удалить Карту")) {
                     State.taskRpcQueue.push(new DestroyMap());
                 }
                 ImGui::Dummy(ImVec2(7, 7) * State.dpiScale);

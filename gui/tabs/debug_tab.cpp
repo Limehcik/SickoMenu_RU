@@ -119,7 +119,7 @@ namespace DebugTab {
 
 		ImGui::Text(std::format("Текущий FPS: {}", GetFps()).c_str());
 
-		if (ImGui::CollapsingHeader("Экспирименты##debug")) {
+		if (ImGui::CollapsingHeader("Эксперименты##debug")) {
 			ImGui::TextColored(ImVec4(1.f, 0.f, 0.f, 1.f), "Эти функции находятся в стадии разработки и могут выйти из строя в любой момент..");
 			ImGui::TextColored(ImVec4(1.f, 0.f, 0.f, 1.f), "Используйте на свой страх и риск.");
 			if (ToggleButton("Система баллов (Только для Хоста)", &State.TournamentMode)) State.Save();
@@ -140,14 +140,15 @@ namespace DebugTab {
 					if (State.SafeMode)
 						ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Безопасный режим включен!");
 					else
-						ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Безопасный режим отклбчен! (Вероятность получить бан увеличивается)");
+						ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Безопасный режим отключен! (Вероятность получить бан)");
 				}
 				else {
 					SafeModeNotification = false;
 				}
 			}
 
-			ImGui::Text("Включайте безопасный режим на официальных серверах (Северная Америка, Европа, Азия), чтобы предотвратить обнаружение античитом!");
+			ImGui::Text("Включайте безопасный режим на официальных серверах");
+			ImGui::Text("чтобы предотвратить обнаружение античитом!");
 		}
 
 		ImGui::EndChild();
