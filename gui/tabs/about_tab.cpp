@@ -36,7 +36,7 @@ namespace AboutTab {
     void Render() {
         ImGui::SameLine(100 * State.dpiScale);
         ImGui::BeginChild("###Информация", ImVec2(500 * State.dpiScale, 0), true, ImGuiWindowFlags_NoBackground);
-        if (TabGroup("Приветсвуем", openWelcome)) {
+        if (TabGroup("Приветствие", openWelcome)) {
             CloseOtherGroups(Groups::Welcome);
         }
         ImGui::SameLine();
@@ -73,6 +73,7 @@ namespace AboutTab {
             if (ColoredButton(State.RgbColor, "Донат")) {
                 OpenLink("https://ko-fi.com/g0aty");
             }
+            ImGui::SameLine();
             if (ColoredButton(State.RgbColor, "Донат переводчику")) {
                 OpenLink("");
             }
@@ -188,7 +189,7 @@ namespace AboutTab {
                 OpenLink("https://github.com/KulaGGin");
             }
             ImGui::SameLine();
-            ImGui::Text("(Помог с кодом ImGui для системы Реплей)");
+            ImGui::Text("(Помог с кодом ImGui для системы Повтора)");
 
             if (ColoredButton(AumCol, "tomsa000")) {
                 OpenLink("https://github.com/tomsa000");

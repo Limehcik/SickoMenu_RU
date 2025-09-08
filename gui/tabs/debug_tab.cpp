@@ -17,24 +17,24 @@ namespace DebugTab {
 		ImGui::BeginChild("###Debug", ImVec2(500, 0) * State.dpiScale, true, ImGuiWindowFlags_NoBackground);
 		ImGui::Dummy(ImVec2(4, 4) * State.dpiScale);
 #ifndef _VERSION
-		if (AnimatedButton("Unload DLL"))
+		if (AnimatedButton("Выгрузить DLL"))
 		{
 			SetEvent(hUnloadEvent);
 		}
 		ImGui::Dummy(ImVec2(4, 4) * State.dpiScale);
 #endif
-		ToggleButton("Enable Occlusion Culling", &State.OcclusionCulling);
+		ToggleButton("Включить отбраковку окклюзии", &State.OcclusionCulling);
 		ImGui::Dummy(ImVec2(4, 4) * State.dpiScale);
 
-		if (AnimatedButton("Force Load Settings"))
+		if (AnimatedButton("Принудительно загрузить настройки"))
 		{
 			State.Load();
 		}
-		if (AnimatedButton("Force Save Settings"))
+		if (AnimatedButton("Принудительно сохранить настройки"))
 		{
 			State.Save();
 		}
-		if (AnimatedButton("Clear RPC Queues"))
+		if (AnimatedButton("Очистить очереди RPC"))
 		{
 			State.rpcQueue = std::queue<RPCInterface*>();
 			State.lobbyRpcQueue = std::queue<RPCInterface*>();
@@ -42,12 +42,12 @@ namespace DebugTab {
 
 		ImGui::Dummy(ImVec2(4, 4) * State.dpiScale);
 
-		if (ToggleButton("Log Unity Debug Messages", &State.ShowUnityLogs)) State.Save();
-		if (ToggleButton("Log Hook Debug Messages", &State.ShowHookLogs)) State.Save();
+		if (ToggleButton("Регистрировать отладочные сообщения Unity", &State.ShowUnityLogs)) State.Save();
+		if (ToggleButton("Регистрировать отладочные сообщения Hook", &State.ShowHookLogs)) State.Save();
 
 		ImGui::Dummy(ImVec2(4, 4) * State.dpiScale);
 
-		if (ImGui::CollapsingHeader("Replay##debug"))
+		if (ImGui::CollapsingHeader("Повтор##debug"))
 		{
 			synchronized(Replay::replayEventMutex) {
 				size_t numWalkPoints = 0;
@@ -65,7 +65,7 @@ namespace DebugTab {
 			ImGui::Text("ReplayIsLive: %s", (State.Replay_IsLive) ? "True" : "False");
 			ImGui::Text("ReplayIsPlaying: %s", (State.Replay_IsPlaying) ? "True" : "False");
 
-			if (AnimatedButton("Re-simplify polylines (check console)"))
+			if (AnimatedButton("Повторно упростить полилинии (проверьте консоль)"))
 			{
 				SYNCHRONIZED(Replay::replayEventMutex);
 				for (auto& playerPolylinePair : State.replayWalkPolylineByPlayer)
@@ -80,7 +80,7 @@ namespace DebugTab {
 			}
 		}
 
-		if (ImGui::CollapsingHeader("Colors##debug"))
+		if (ImGui::CollapsingHeader("Цвета##debug"))
 		{
 			il2cpp::Array colArr = app::Palette__TypeInfo->static_fields->PlayerColors;
 			auto colArr_raw = colArr.begin();
@@ -94,9 +94,9 @@ namespace DebugTab {
 			}
 		}
 
-		if (ImGui::CollapsingHeader("Profiler##debug"))
+		if (ImGui::CollapsingHeader("Профилировщик##debug"))
 		{
-			if (AnimatedButton("Clear Stats"))
+			if (AnimatedButton("Очистить статистику"))
 			{
 				Profiler::ClearStats();
 			}
@@ -115,18 +115,18 @@ namespace DebugTab {
 			ImGui::TextUnformatted(statStream.str().c_str());
 		}
 
-		ImGui::Text(std::format("Active Scene: {}", State.CurrentScene).c_str());
+		ImGui::Text(std::format("Активная сцена: {}", State.CurrentScene).c_str());
 
-		ImGui::Text(std::format("Current FPS: {}", GetFps()).c_str());
+		ImGui::Text(std::format("Текущий FPS: {}", GetFps()).c_str());
 
-		if (ImGui::CollapsingHeader("Experiments##debug")) {
-			ImGui::TextColored(ImVec4(1.f, 0.f, 0.f, 1.f), "These features are in development and can break at any time.");
-			ImGui::TextColored(ImVec4(1.f, 0.f, 0.f, 1.f), "Use these at your own risk.");
-			if (ToggleButton("Point System (Only for Hosting)", &State.TournamentMode)) State.Save();
-			if (ToggleButton("April Fools' Mode", &State.AprilFoolsMode)) State.Save();
+		if (ImGui::CollapsingHeader("Экспирименты##debug")) {
+			ImGui::TextColored(ImVec4(1.f, 0.f, 0.f, 1.f), "Эти функции находятся в стадии разработки и могут выйти из строя в любой момент..");
+			ImGui::TextColored(ImVec4(1.f, 0.f, 0.f, 1.f), "Используйте на свой страх и риск.");
+			if (ToggleButton("Система баллов (Только для Хоста)", &State.TournamentMode)) State.Save();
+			if (ToggleButton("Режим дурака на 1 апреля", &State.AprilFoolsMode)) State.Save();
 			static float timer = 0.0f;
 			static bool SafeModeNotification = false;
-			if (ToggleButton("Safe Mode", &State.SafeMode)) {
+			if (ToggleButton("Безопасный режим", &State.SafeMode)) {
 				State.Save();
 				SafeModeNotification = true;
 				timer = static_cast<float>(ImGui::GetTime());
@@ -138,16 +138,16 @@ namespace DebugTab {
 				if (currentTime - timer < 5.0f) {
 					ImGui::SameLine();
 					if (State.SafeMode)
-						ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Safe Mode is Enabled!");
+						ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Безопасный режим включен!");
 					else
-						ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Safe Mode is Disabled! (The likelihood of getting banned increases)");
+						ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Безопасный режим отклбчен! (Вероятность получить бан увеличивается)");
 				}
 				else {
 					SafeModeNotification = false;
 				}
 			}
 
-			ImGui::Text("Keep safe mode on in official servers (NA, Europe, Asia) to prevent anticheat detection!");
+			ImGui::Text("Включайте безопасный режим на официальных серверах (Северная Америка, Европа, Азия), чтобы предотвратить обнаружение античитом!");
 		}
 
 		ImGui::EndChild();
