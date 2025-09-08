@@ -19,25 +19,25 @@ namespace SabotageTab {
             ImGui::SameLine(100 * State.dpiScale);
             ImGui::BeginChild("###Sabotage", ImVec2(500 * State.dpiScale, 0), true, ImGuiWindowFlags_NoBackground);
             ImGui::Dummy(ImVec2(4, 4) * State.dpiScale);
-            if (IsHost() && ToggleButton("Disable Sabotages", &State.DisableSabotages)) {
+            if (IsHost() && ToggleButton("Отключить Саботажи", &State.DisableSabotages)) {
                 ImGui::Dummy(ImVec2(7, 7) * State.dpiScale);
                 ImGui::Separator();
                 ImGui::Dummy(ImVec2(7, 7) * State.dpiScale);
             }
-            if (AnimatedButton("Repair Sabotage")) {
+            if (AnimatedButton("Починить Саботажи")) {
                 RepairSabotage(*Game::pLocalPlayer);
             }
 
-            if (ToggleButton("Auto Repair Sabotages", &State.AutoRepairSabotage)) {
+            if (ToggleButton("Авто Починка Саботажей", &State.AutoRepairSabotage)) {
                 State.Save();
             }
 
             ImGui::NewLine();
             if (State.DisableSabotages)
-                ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Sabotages have been disabled. Nothing can be sabotaged.");
+                ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Саботажи Отключены.");
             //i skidded some code from https://github.com/scp222thj/MalumMenu/
 
-            if (AnimatedButton("Sabotage All")) {
+            if (AnimatedButton("Все Саботажи")) {
                 if (State.mapType != Settings::MapType::Fungle) {
                     for (size_t i = 0; i < 5; i++)
                         State.rpcQueue.push(new RpcUpdateSystem(SystemTypes__Enum::Electrical, i));
@@ -59,7 +59,7 @@ namespace SabotageTab {
                 State.rpcQueue.push(new RpcUpdateSystem(SystemTypes__Enum::Comms, 128));
             }
 
-            if (AnimatedButton("Random Sabotage")) {
+            if (AnimatedButton("Случайный Саботаж")) {
                 switch (State.mapType) {
                 case Settings::MapType::Pb:
                 {
@@ -117,17 +117,17 @@ namespace SabotageTab {
                 }
             }
 
-            if (State.mapType != Settings::MapType::Fungle && AnimatedButton("Sabotage Lights")) {
+            if (State.mapType != Settings::MapType::Fungle && AnimatedButton("Саботаж Света")) {
                 for (size_t i = 0; i < 5; i++)
                     State.rpcQueue.push(new RpcUpdateSystem(SystemTypes__Enum::Electrical, i));
             }
             if (State.mapType == Settings::MapType::Ship || State.mapType == Settings::MapType::Hq || State.mapType == Settings::MapType::Fungle) {
-                if (AnimatedButton("Sabotage Reactor")) {
+                if (AnimatedButton("Саботаж Реактора")) {
                     State.rpcQueue.push(new RpcUpdateSystem(SystemTypes__Enum::Reactor, 128));
                 }
             }
             else if (State.mapType == Settings::MapType::Pb) {
-                if (AnimatedButton("Sabotage Seismic Stabilizers")) {
+                if (AnimatedButton("Саботаж Сейсмических Стабилизаторов")) {
                     State.rpcQueue.push(new RpcUpdateSystem(SystemTypes__Enum::Laboratory, 128));
                 }
             }
@@ -137,16 +137,16 @@ namespace SabotageTab {
                 }
             }
             if (State.mapType == Settings::MapType::Ship || State.mapType == Settings::MapType::Hq) {
-                if (AnimatedButton("Sabotage Oxygen")) {
+                if (AnimatedButton("Саботаж Кислорода")) {
                     State.rpcQueue.push(new RpcUpdateSystem(SystemTypes__Enum::LifeSupp, 128));
                 }
             }
             if (State.mapType == Settings::MapType::Fungle) {
-                if (AnimatedButton("Activate Mushroom Mixup")) {
+                if (AnimatedButton("Грибной Переполох")) {
                     State.rpcQueue.push(new RpcUpdateSystem(SystemTypes__Enum::MushroomMixupSabotage, 1));
                 }
             }
-            if (AnimatedButton("Sabotage Comms")) {
+            if (AnimatedButton("Саботаж Связи")) {
                 State.rpcQueue.push(new RpcUpdateSystem(SystemTypes__Enum::Comms, 128));
             }
 
@@ -155,7 +155,7 @@ namespace SabotageTab {
             ImGui::Dummy(ImVec2(7, 7) * State.dpiScale);
 
             if (State.mapType != Settings::MapType::Fungle) {
-                if (ToggleButton("Disable Lights", &State.DisableLights)) {
+                if (ToggleButton("Отключить Свет [Не починить]", &State.DisableLights)) {
                     if (auto switchSystem = (SwitchSystem*)il2cpp::Dictionary((*Game::pShipStatus)->fields.Systems)[SystemTypes__Enum::Electrical]) {
                         auto actualSwitches = switchSystem->fields.ActualSwitches;
                         auto expectedSwitches = switchSystem->fields.ExpectedSwitches;
@@ -169,16 +169,16 @@ namespace SabotageTab {
                 }
             }
             ImGui::SameLine();
-            if (ToggleButton("Disable Lights [Auto Moving Switches]", &State.DisableLightSwitches)) State.Save();
+            if (ToggleButton("Отключить Свет [Авто Отключение Переключателей]", &State.DisableLightSwitches)) State.Save();
 
-            if (ToggleButton("Disable Fix Comms", &State.DisableComms)) State.Save();
+            if (ToggleButton("Отключение Починки Связи", &State.DisableComms)) State.Save();
 
-            if (ToggleButton("Spam Sabotage Reactor", &State.DisableReactor)) State.Save();
+            if (ToggleButton("Спам Саботажами Реактора", &State.DisableReactor)) State.Save();
 
-            if ((State.mapType == Settings::MapType::Ship || State.mapType == Settings::MapType::Hq) && ToggleButton("Spam Sabotage Oxygen", &State.DisableOxygen))
+            if ((State.mapType == Settings::MapType::Ship || State.mapType == Settings::MapType::Hq) && ToggleButton("Спам Саботажами Кислорода", &State.DisableOxygen))
                 State.Save();
 
-            if (State.mapType == Settings::MapType::Fungle && ToggleButton("Infinite Mushroom Mixup", &State.InfiniteMushroomMixup))
+            if (State.mapType == Settings::MapType::Fungle && ToggleButton("Бесконечный Грибной Переполох", &State.InfiniteMushroomMixup))
                 State.Save();
 
             ImGui::EndChild();
