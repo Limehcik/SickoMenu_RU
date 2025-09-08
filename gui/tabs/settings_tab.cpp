@@ -307,7 +307,7 @@ namespace SettingsTab {
 			if (ToggleButton("Притвориться Гостевым Аккаунтом (ТОЛЬКО Быстрый Чат)", &State.SpoofGuestAccount)) {
 				State.Save();
 			}
-			if (ToggleButton("Использовать Кастомный Код Друга (ТОЛЬКО для Новых или Гостевый Аккаунтов)", &State.UseNewFriendCode)) {
+			if (ToggleButton("Использовать Кастомный Код (ТОЛЬКО для Новых или Гостевый Аккаунтов)", &State.UseNewFriendCode)) {
 				State.Save();
 			}
 			if (State.UseNewFriendCode) {
@@ -322,7 +322,7 @@ namespace SettingsTab {
 			}
 			if (State.SpoofLevel) {
 				ImGui::SameLine();
-				if (ImGui::InputInt("Уровень", &State.FakeLevel, 0, 1)) {
+				if (ImGui::InputInt("", &State.FakeLevel, 0, 1)) {
 					State.Save();
 				}
 
@@ -335,7 +335,7 @@ namespace SettingsTab {
 			}
 			if (State.SpoofPlatform) {
 				ImGui::SameLine();
-				if (CustomListBoxInt("Платформа", &State.FakePlatform, PLATFORMS))
+				if (CustomListBoxInt("", &State.FakePlatform, PLATFORMS))
 					State.Save();
 			}
 
@@ -356,7 +356,7 @@ namespace SettingsTab {
 				State.Save();
 			if (State.SpoofAUVersion) {
 				ImGui::SameLine();
-				if (CustomListBoxInt("Версия", &State.FakeAUVersion, AUVERSIONS))
+				if (CustomListBoxInt("", &State.FakeAUVersion, AUVERSIONS))
 					State.Save();
 			}
 		}
