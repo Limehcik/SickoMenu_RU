@@ -131,9 +131,9 @@ namespace Menu {
 			}
 		}
 		ImGui::TextColored(ImVec4(0.f, 0.f, 0.f, 0.f), "space");
-		if (searchResults.size() == 0) BoldText("No results.");
+		if (searchResults.size() == 0) BoldText("Нет Результатом.");
 		else {
-			BoldText(("Search Result" + std::string(searchResults.size() == 1 ? "" : "s")).c_str());
+			BoldText(("Результаты" + std::string(searchResults.size() == 1 ? "" : "s")).c_str());
 			for (std::string i : searchResults) {
 				ImGui::TextColored(ImVec4(0.8f, 0.8f, 0.8f, 1.f), i.c_str());
 			}
@@ -221,7 +221,7 @@ namespace Menu {
 			ImVec4 GreenCol = ImVec4(0.f, 1.f, 0.f, 1.f);
 			if (!isPanicWarning) {
 				ImGui::SetCursorPos(ImVec2(ImGui::GetWindowWidth() - 90 * State.dpiScale, ImGui::GetWindowHeight() - 20 * State.dpiScale));
-				if (!State.AprilFoolsMode && ColoredButton(PanicCol, "Отключить Меню")) {
+				if (!State.AprilFoolsMode && ColoredButton(PanicCol, "Откл Меню")) {
 					isPanicWarning = State.PanicWarning;
 					if (!State.PanicWarning) State.PanicMode = true;
 				}

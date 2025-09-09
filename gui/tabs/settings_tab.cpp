@@ -579,7 +579,7 @@ namespace SettingsTab {
 
 			CheckKeybindEdit(HotKey(State.KeyBinds.Toggle_Zoom));
 			ImGui::SameLine(100 * State.dpiScale);
-			ImGui::Text("Приближение");
+			ImGui::Text("Отдаление");
 
 			ImGui::Dummy(ImVec2(4, 4) * State.dpiScale);
 

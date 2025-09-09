@@ -201,7 +201,7 @@ namespace GameTab {
             if (ToggleButton("Умножать Скорость", &State.MultiplySpeed)) {
                 State.Save();
             }
-            ImGui::SameLine();
+
             if (ToggleButton("Изменять Дистанцию Убийства", &State.ModifyKillDistance)) {
                 State.Save();
             }

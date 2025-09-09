@@ -232,70 +232,70 @@ namespace SelfTab {
     void Render() {
         ImGui::SameLine(100 * State.dpiScale);
         ImGui::BeginChild("###Self", ImVec2(500 * State.dpiScale, 0), true, ImGuiWindowFlags_NoBackground);
-        if (TabGroup("Visuals", openVisuals)) {
+        if (TabGroup("Визуалы", openVisuals)) {
             CloseOtherGroups(Groups::Visuals);
         }
         ImGui::SameLine();
-        if (TabGroup("Utils", openUtils)) {
+        if (TabGroup("Утилиты", openUtils)) {
             CloseOtherGroups(Groups::Utils);
         }
         ImGui::SameLine();
-        if (TabGroup("Randomizers", openRandomizers)) {
+        if (TabGroup("Рандомайзер", openRandomizers)) {
             CloseOtherGroups(Groups::Randomizers);
         }
         ImGui::SameLine();
-        if (TabGroup("Text Editor", openTextEditor)) {
+        if (TabGroup("Редактор Текста", openTextEditor)) {
             CloseOtherGroups(Groups::TextEditor);
         }
 
         if (openVisuals) {
             ImGui::Dummy(ImVec2(4, 4) * State.dpiScale);
-            if (ToggleButton("Max Vision", &State.MaxVision)) {
+            if (ToggleButton("Максимальный Обзор", &State.MaxVision)) {
                 State.Save();
             }
             ImGui::SameLine();
-            if (ToggleButton("Wallhack", &State.Wallhack)) {
+            if (ToggleButton("Валлхак", &State.Wallhack)) {
                 State.Save();
             }
             ImGui::SameLine();
-            ToggleButton("Disable HUD", &State.DisableHud);
+            ToggleButton("Отключить HUD", &State.DisableHud);
 
-            if (ToggleButton("Freecam", &State.FreeCam)) {
+            if (ToggleButton("Свобод. Камера", &State.FreeCam)) {
                 State.playerToFollow = {};
                 State.Save();
             }
 
             ImGui::SameLine(130.f * State.dpiScale);
-            SteppedSliderFloat("Speed", &State.FreeCamSpeed, 0.f, 10.f, 0.05f, "%.2fx", ImGuiSliderFlags_Logarithmic | ImGuiSliderFlags_NoInput);
+            SteppedSliderFloat("Скорость", &State.FreeCamSpeed, 0.f, 10.f, 0.05f, "%.2fx", ImGuiSliderFlags_Logarithmic | ImGuiSliderFlags_NoInput);
 
-            if (ToggleButton("Zoom", &State.EnableZoom)) {
+            if (ToggleButton("Отдалить", &State.EnableZoom)) {
                 State.Save();
                 if (!State.EnableZoom) RefreshChat();
             }
 
             ImGui::SameLine(130.f * State.dpiScale);
-            SteppedSliderFloat("Scale", &State.CameraHeight, 0.5f, 10.0f, 0.1f, "%.2fx", ImGuiSliderFlags_Logarithmic | ImGuiSliderFlags_NoInput);
+            SteppedSliderFloat("Размер", &State.CameraHeight, 0.5f, 10.0f, 0.1f, "%.2fx", ImGuiSliderFlags_Logarithmic | ImGuiSliderFlags_NoInput);
 
             ImGui::Dummy(ImVec2(7, 7) * State.dpiScale);
             ImGui::Separator();
             ImGui::Dummy(ImVec2(7, 7) * State.dpiScale);
 
-            if (ToggleButton("Always show Chat Button", &State.ChatAlwaysActive)) {
+            if (ToggleButton("Показывать Кнопку Чата", &State.ChatAlwaysActive)) {
                 State.Save();
             }
             ImGui::SameLine();
-            if (ToggleButton("Allow Ctrl+(C/V) in Chat", &State.ChatPaste)) { //add copying later
+            if (ToggleButton("Разрешить Ctrl+(C/V)", &State.ChatPaste)) { //add copying later
                 State.Save();
             }
 
-            if (ToggleButton("Read Messages by Ghosts", &State.ReadGhostMessages)) {
+            if (ToggleButton("Видеть Сообщения Призраков", &State.ReadGhostMessages)) {
                 State.Save();
             }
             ImGui::SameLine();
-            if (ToggleButton("Read and Send SickoChat", &State.ReadAndSendSickoChat)) {
+            if (ToggleButton("Читать и Писать в SickoЧат", &State.ReadAndSendSickoChat)) {
                 State.Save();
             }
-            if (State.ReadAndSendSickoChat) ImGui::Text("Send SickoChat messages in regular chat by typing \"/sc [message]\"!");
+            if (State.ReadAndSendSickoChat) ImGui::Text("Чтобы писать в SickoЧат Пишите \"/sc [сообщение]\"!");
             /*static int framesPassed = 0;
             if (AnimatedButton("Refresh Chat Button")) {
                 State.RefreshChatButton = true;
@@ -306,53 +306,58 @@ namespace SelfTab {
             else framesPassed--;*/
 
             if (!IsHost() && State.SafeMode) {
-                ImGui::Text("Custom names are purely CLIENT-SIDED without host/disabled safe mode!");
+                ImGui::Text("Кастомные Ники Видны Только Вам, Если Вы не Хост");
             }
-            if (ToggleButton("Custom Name", &State.CustomName)) {
+
+            if (!IsHost() && State.SafeMode) {
+                ImGui::Text("Или у Вас не Выключен Безопасный Режим!");
+            }
+
+            if (ToggleButton("Кастомный Ник", &State.CustomName)) {
                 State.Save();
             }
             ImGui::SameLine();
-            if (ToggleButton("Custom Name for Everyone", &State.CustomNameForEveryone)) {
+            if (ToggleButton("Кастомный Ник Всем", &State.CustomNameForEveryone)) {
                 State.Save();
             }
 
             if ((IsHost() || !State.SafeMode)) {
-                if (ToggleButton("Server-sided Custom Name", &State.ServerSideCustomName)) {
+                if (ToggleButton("Кастомный Ник Виден Всем", &State.ServerSideCustomName)) {
                     State.Save();
                 }
             }
 
-            if (State.CustomName && ImGui::CollapsingHeader("Custom Name Options"))
+            if (State.CustomName && ImGui::CollapsingHeader("Настройки Кастомного Ника"))
             {
-                if (ToggleButton("Italics", &State.ItalicName)) {
+                if (ToggleButton("Курсив", &State.ItalicName)) {
                     State.Save();
                 }
                 ImGui::SameLine();
-                if (ToggleButton("Underline", &State.UnderlineName)) {
+                if (ToggleButton("Подчеркнутый", &State.UnderlineName)) {
                     State.Save();
                 }
                 ImGui::SameLine();
-                if (ToggleButton("Strikethrough", &State.StrikethroughName)) {
+                if (ToggleButton("Зачеркнутый", &State.StrikethroughName)) {
                     State.Save();
                 }
                 ImGui::SameLine();
-                if (ToggleButton("Bold", &State.BoldName)) {
-                    State.Save();
-                }
-                ImGui::SameLine();
-                if (ToggleButton("Nobr", &State.NobrName)) {
+                if (ToggleButton("Толстый", &State.BoldName)) {
                     State.Save();
                 }
 
-                if (ImGui::ColorEdit4("Starting Gradient Color", (float*)&State.NameColor1, ImGuiColorEditFlags__OptionsDefault | ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_AlphaBar | ImGuiColorEditFlags_AlphaPreview)) {
+                if (ToggleButton("Без переноса", &State.NobrName)) {
+                    State.Save();
+                }
+
+                if (ImGui::ColorEdit4("Начало Градиента", (float*)&State.NameColor1, ImGuiColorEditFlags__OptionsDefault | ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_AlphaBar | ImGuiColorEditFlags_AlphaPreview)) {
                     State.Save();
                 }
                 ImGui::SameLine();
-                if (ImGui::ColorEdit4("Ending Gradient Color", (float*)&State.NameColor2, ImGuiColorEditFlags__OptionsDefault | ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_AlphaBar | ImGuiColorEditFlags_AlphaPreview)) {
+                if (ImGui::ColorEdit4("Конец Градиента", (float*)&State.NameColor2, ImGuiColorEditFlags__OptionsDefault | ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_AlphaBar | ImGuiColorEditFlags_AlphaPreview)) {
                     State.Save();
                 }
                 ImGui::SameLine();
-                if (ToggleButton("Colored", &State.ColoredName)) {
+                if (ToggleButton("Цветной", &State.ColoredName)) {
                     State.Save();
                 }
 
@@ -360,21 +365,21 @@ namespace SelfTab {
                     State.Save();
                 }
 
-                if (CustomListBoxInt("Gradient Method", &State.ColorMethod, { "Static", "Left-to-Right" }, 80.f * State.dpiScale))
+                if (CustomListBoxInt("Режим Градиента", &State.ColorMethod, { "Статичный", "Слева-на-Право" }, 80.f * State.dpiScale))
                     State.Save();
                 ImGui::SameLine();
-                if (CustomListBoxInt("RGB Method", &State.RgbMethod, { "All-at-Once", "Left-to-Right" }, 80.f * State.dpiScale))
+                if (CustomListBoxInt("RGB Режим", &State.RgbMethod, { "Все-сразу", "Слева-на-Право" }, 80.f * State.dpiScale))
                     State.Save();
 
-                if (ToggleButton("Enable Prefix and Suffix", &State.UsePrefixAndSuffix)) State.Save();
-                if (ToggleButton("New Lines for Prefix and Suffix", &State.PrefixAndSuffixNewLines)) State.Save();
+                if (ToggleButton("Вкл Префикс и Суффикс", &State.UsePrefixAndSuffix)) State.Save();
+                if (ToggleButton("Новые Строки для Префикса и Суффикса", &State.PrefixAndSuffixNewLines)) State.Save();
 
-                if (InputString("Name Prefix", &State.NamePrefix)) State.Save();
-                if (InputString("Name Suffix", &State.NameSuffix)) State.Save();
-                if (State.UsePrefixAndSuffix) ImGui::TextColored(ImVec4(1.0f, 1.0f, 1.0f, 1.0f), ("Note: Prefix and/or suffix will be cleared from the ends of the name if it contains them."));
-                if (State.UsePrefixAndSuffix) ImGui::TextColored(ImVec4(1.0f, 1.0f, 1.0f, 1.0f), ("This is done to prevent name overflowing."));
+                if (InputString("Префикс", &State.NamePrefix)) State.Save();
+                if (InputString("Суффикс", &State.NameSuffix)) State.Save();
+                if (State.UsePrefixAndSuffix) ImGui::TextColored(ImVec4(1.0f, 1.0f, 1.0f, 1.0f), ("Примечание: Префикс и/или Суффикс Будут Удалены из Концов Имени, если Они в нем Содержатся."));
+                if (State.UsePrefixAndSuffix) ImGui::TextColored(ImVec4(1.0f, 1.0f, 1.0f, 1.0f), ("Это Делается для Предотвращения Переполнения Имен."));
 
-                if (ToggleButton("Font", &State.Font)) {
+                if (ToggleButton("Шрифт", &State.Font)) {
                     State.Save();
                 }
                 if (State.Font) {
@@ -383,7 +388,7 @@ namespace SelfTab {
                         State.Save();
                     }
                 }
-                if (State.Font) ImGui::TextColored(ImVec4(1.0f, 1.0f, 1.0f, 1.0f), ("Note: The white nickname will not be visible in the chat"));
+                if (State.Font) ImGui::TextColored(ImVec4(1.0f, 1.0f, 1.0f, 1.0f), ("Примечание: Белый Ник не Будет Виден в Чате."));
 
                 /*if (ToggleButton("Material", &State.Material)) {
                     State.Save();
@@ -393,146 +398,146 @@ namespace SelfTab {
                     State.Save();
                 }*/
 
-                if (ToggleButton("Size", &State.ResizeName)) {
+                if (ToggleButton("Размер", &State.ResizeName)) {
                     State.Save();
                 }
 
                 ImGui::SameLine();
-                if (ImGui::InputFloat("Name Size", &State.NameSize)) {
+                if (ImGui::InputFloat("Размер Ника", &State.NameSize)) {
                     State.Save();
                 }
 
-                if (ToggleButton("Indent", &State.IndentName)) {
-                    State.Save();
-                }
-
-                ImGui::SameLine();
-                if (ImGui::InputFloat("Name Indent", &State.NameIndent)) {
-                    State.Save();
-                }
-
-                if (ToggleButton("Cspace", &State.CspaceName)) {
+                if (ToggleButton("Отступ", &State.IndentName)) {
                     State.Save();
                 }
 
                 ImGui::SameLine();
-                if (ImGui::InputFloat("Name Cspace", &State.NameCspace)) {
+                if (ImGui::InputFloat("Отступ Ника", &State.NameIndent)) {
                     State.Save();
                 }
 
-                if (ToggleButton("Mspace", &State.MspaceName)) {
-                    State.Save();
-                }
-
-                ImGui::SameLine();
-                if (ImGui::InputFloat("Name Mspace", &State.NameMspace)) {
-                    State.Save();
-                }
-
-                if (ToggleButton("Voffset", &State.VoffsetName)) {
+                if (ToggleButton("Интервал", &State.CspaceName)) {
                     State.Save();
                 }
 
                 ImGui::SameLine();
-                if (ImGui::InputFloat("Name Voffset", &State.NameVoffset)) {
+                if (ImGui::InputFloat("Интервал Символов", &State.NameCspace)) {
                     State.Save();
                 }
-                if (ToggleButton("Rotate", &State.RotateName)) {
+
+                if (ToggleButton("Межстроч.", &State.MspaceName)) {
                     State.Save();
                 }
 
                 ImGui::SameLine();
-                if (ImGui::InputFloat("Rotation Angle", &State.NameRotate)) {
+                if (ImGui::InputFloat("Межстроч. Растоян.", &State.NameMspace)) {
+                    State.Save();
+                }
+
+                if (ToggleButton("Верт. Сдвиг", &State.VoffsetName)) {
+                    State.Save();
+                }
+
+                ImGui::SameLine();
+                if (ImGui::InputFloat("Верт. Сдвиг Ника", &State.NameVoffset)) {
+                    State.Save();
+                }
+                if (ToggleButton("Поворот", &State.RotateName)) {
+                    State.Save();
+                }
+
+                ImGui::SameLine();
+                if (ImGui::InputFloat("Угол Поворота", &State.NameRotate)) {
                     State.Save();
                 }
                 ImGui::Dummy(ImVec2(5, 5) * State.dpiScale);
             }
 
-            if (ToggleButton("Reveal Roles", &State.RevealRoles)) {
+            if (ToggleButton("Показ. роли", &State.RevealRoles)) {
                 State.Save();
             }
             ImGui::SameLine(120.0f * State.dpiScale);
-            if (ToggleButton("Abbrv. Role", &State.AbbreviatedRoleNames))
+            if (ToggleButton("Абрев. Ролей", &State.AbbreviatedRoleNames))
             {
                 State.Save();
             }
             ImGui::SameLine(240.0f * State.dpiScale);
-            if (ToggleButton("Player Colored Dots Next To Names", &State.PlayerColoredDots))
+            if (ToggleButton("Цветные Точки Игроков у Имен", &State.PlayerColoredDots))
             {
                 State.Save();
             }
 
-            if (ToggleButton("Show Player Info in Lobby", &State.ShowPlayerInfo))
+            if (ToggleButton("Показ Инфо Игроков в Лобби", &State.ShowPlayerInfo))
             {
                 State.Save();
             }
             ImGui::SameLine();
-            if (ToggleButton("Show Lobby Info", &State.ShowLobbyInfo))
+            if (ToggleButton("Показ Инфо Лобби", &State.ShowLobbyInfo))
             {
                 State.Save();
             }
 
-            if (ToggleButton("Reveal Votes", &State.RevealVotes)) {
+            if (ToggleButton("Видеть Голоса", &State.RevealVotes)) {
                 State.Save();
             }
             ImGui::SameLine();
-            if (ToggleButton("Reveal Anonymous Votes", &State.RevealAnonymousVotes)) {
+            if (ToggleButton("Видеть Тайные Голоса", &State.RevealAnonymousVotes)) {
                 State.Save();
                 RevealAnonymousVotes();
             }
 
-            if (ToggleButton("See Ghosts", &State.ShowGhosts)) {
+            if (ToggleButton("Видеть Призраков", &State.ShowGhosts)) {
                 State.Save();
             }
             ImGui::SameLine();
-            if (ToggleButton("See Phantoms", &State.ShowPhantoms)) {
+            if (ToggleButton("Видеть Фантомов", &State.ShowPhantoms)) {
                 State.Save();
             }
             ImGui::SameLine();
-            if (ToggleButton("See Players In Vents", &State.ShowPlayersInVents)) {
+            if (ToggleButton("Видеть Игроков в Люках", &State.ShowPlayersInVents)) {
                 State.Save();
             }
 
-            if (ToggleButton("See Protections", &State.ShowProtections))
+            if (ToggleButton("Видеть Щиты", &State.ShowProtections))
             {
                 State.Save();
             }
             ImGui::SameLine();
-            if (ToggleButton("See Kill Cooldown", &State.ShowKillCD)) {
+            if (ToggleButton("Видеть КД Убийства", &State.ShowKillCD)) {
                 State.Save();
             }
 
-            if (ToggleButton("Disable Kill Animation", &State.DisableKillAnimation)) {
+            if (ToggleButton("Откл Аним. Убийства", &State.DisableKillAnimation)) {
                 State.Save();
             }
             ImGui::SameLine();
-            if (ToggleButton("Disable Lobby Music", &State.DisableLobbyMusic)) {
+            if (ToggleButton("Откл Музыку в Лобби", &State.DisableLobbyMusic)) {
                 State.Save();
             }
             ImGui::SameLine();
-            if (ToggleButton("Old Ping Text", &State.OldStylePingText)) State.Save();
+            if (ToggleButton("Старый Текст Пинга", &State.OldStylePingText)) State.Save();
 
-            if (ToggleButton("Show Host", &State.ShowHost)) {
+            if (ToggleButton("Показ Хоста", &State.ShowHost)) {
                 State.Save();
             }
             ImGui::SameLine();
-            if (ToggleButton("Show Vote Kicks", &State.ShowVoteKicks)) {
+            if (ToggleButton("Показ Результаты Голос.", &State.ShowVoteKicks)) {
                 State.Save();
             }
             ImGui::SameLine();
-            if (ToggleButton("Show FPS", &State.ShowFps)) {
-                State.Save();
-            }
-
-            if (ToggleButton("Show Chat Cooldown", &State.ShowChatTimer)) {
-                State.Save();
-            }
-            ImGui::SameLine();
-            if (ToggleButton("Extend Chat Character Limit", &State.ExtendChatLimit)) {
+            if (ToggleButton("Показ FPS", &State.ShowFps)) {
                 State.Save();
             }
 
-            if (ToggleButton("Extend Chat History", &State.ExtendChatHistory)) {
+            if (ToggleButton("Показ КД Чата", &State.ShowChatTimer)) {
+                State.Save();
+            }
+            ImGui::SameLine();
+            if (ToggleButton("Увеличить Лимит Символов в Чате", &State.ExtendChatLimit)) {
+                State.Save();
+            }
+
+            if (ToggleButton("Увеличить Историю Чата", &State.ExtendChatHistory)) {
                 State.Save();
             }
 
@@ -545,7 +550,7 @@ namespace SelfTab {
                     State.Save();
             }*/
 
-            if (State.InMeeting && AnimatedButton("Move in Meeting"))
+            if (State.InMeeting && AnimatedButton("Выйти из Голосования"))
             {
                 if (IsHost()) State.rpcQueue.push(new RpcEndMeeting());
                 else State.rpcQueue.push(new EndMeeting());
@@ -554,74 +559,74 @@ namespace SelfTab {
         }
 
         if (openUtils) {
-            if (ToggleButton("Unlock Vents", &State.UnlockVents)) {
+            if (ToggleButton("Открыть Люки", &State.UnlockVents)) {
                 State.Save();
             }
             ImGui::SameLine();
-            if (ToggleButton("Move While in Vent & Shapeshifting", &State.MoveInVentAndShapeshift)) {
+            if (ToggleButton("Двигаться в Люке и при Превращении", &State.MoveInVentAndShapeshift)) {
                 if (*Game::pLocalPlayer == NULL) State.Save();
                 else if (!State.MoveInVentAndShapeshift && (State.InMeeting || (*Game::pLocalPlayer)->fields.inVent)) {
                     (*Game::pLocalPlayer)->fields.moveable = false;
                     State.Save();
                 }
             }
-            ImGui::SameLine();
-            if (ToggleButton("Always Move", &State.AlwaysMove)) {
+
+            if (ToggleButton("Всегда Двигаться", &State.AlwaysMove)) {
                 State.Save();
             }
 
-            if (ToggleButton("No Shapeshift Animation", &State.AnimationlessShapeshift)) {
+            if (ToggleButton("Нет Анимации Превращения", &State.AnimationlessShapeshift)) {
                 State.Save();
             }
             ImGui::SameLine();
-            if (ToggleButton("Copy Lobby Code on Disconnect", &State.AutoCopyLobbyCode)) {
+            if (ToggleButton("Копир. Код Лобби при Отключ.", &State.AutoCopyLobbyCode)) {
                 State.Save();
             }
 
-            if (ToggleButton("NoClip", &State.NoClip)) {
+            if (ToggleButton("Ноуклип", &State.NoClip)) {
                 State.Save();
             }
             ImGui::SameLine();
-            if (ToggleButton("No Seeker Animation", &State.NoSeekerAnim)) State.Save();
+            if (ToggleButton("Нет Анимации Искателя", &State.NoSeekerAnim)) State.Save();
 
-            if (ToggleButton("Kill Other Impostors", &State.KillImpostors)) {
+            if (ToggleButton("Убивать Предателей", &State.KillImpostors)) {
                 State.Save();
             }
             ImGui::SameLine();
-            if (ToggleButton("Infinite Kill Range", &State.InfiniteKillRange)) {
+            if (ToggleButton("Беск. Дистанция Убийств", &State.InfiniteKillRange)) {
                 State.Save();
             }
 
-            if (ToggleButton("Better Chat Notifications", &State.BetterChatNotifications)) {
+            if (ToggleButton("Лучше Уведомления Чата", &State.BetterChatNotifications)) {
                 State.Save();
             }
             ImGui::SameLine();
-            if (ToggleButton("Better Lobby Code Input", &State.BetterLobbyCodeInput)) {
+            if (ToggleButton("Лучше Ввод Кода Лобби", &State.BetterLobbyCodeInput)) {
                 State.Save();
             }
-            ImGui::SameLine();
-            if (ToggleButton("Better Message Sounds", &State.BetterMessageSounds)) {
+
+            if (ToggleButton("Лучше Звук Сообщения", &State.BetterMessageSounds)) {
                 State.Save();
             }
 
             /*if (ToggleButton("Bypass Guardian Angel Protections", &State.BypassAngelProt)) {
                 State.Save();
-            }
-            ImGui::SameLine();*/
-            if (ToggleButton("Autokill", &State.AutoKill)) {
+            }*/
+            ImGui::SameLine();
+            if (ToggleButton("Авто Убийство", &State.AutoKill)) {
                 State.Save();
             }
 
-            if (ToggleButton("Do Tasks as Impostor", &State.DoTasksAsImpostor)) {
+            if (ToggleButton("Задания за Предателя", &State.DoTasksAsImpostor)) {
                 State.Save();
             }
             ImGui::SameLine();
-            if (ToggleButton("Report Body on Murder", &State.ReportOnMurder)) {
+            if (ToggleButton("Репортить при Убийстве", &State.ReportOnMurder)) {
                 State.Save();
             }
             if (State.ReportOnMurder) {
                 ImGui::SameLine();
-                if (ToggleButton("Prevent Self-Report", &State.PreventSelfReport)) {
+                if (ToggleButton("Без Саморепорта", &State.PreventSelfReport)) {
                     State.Save();
                 }
             }
@@ -630,45 +635,44 @@ namespace SelfTab {
                 State.Save();
             }*/
 
-            if (ToggleButton("Fake Alive", &State.FakeAlive)) {
+            if (ToggleButton("Визуально Ожить", &State.FakeAlive)) {
                 State.Save();
             }
             ImGui::SameLine();
-            if (((IsHost() && IsInGame()) || !State.SafeMode) && ToggleButton(IsHost() ? "God Mode" : "Visual Protection", &State.GodMode))
+            if (((IsHost() && IsInGame()) || !State.SafeMode) && ToggleButton(IsHost() ? "Режим Бога" : "Визуал Щит", &State.GodMode))
                 State.Save();
 
-            if (ToggleButton("(Shift/Ctrl + Right Click) to Teleport", &State.ShiftRightClickTP)) {
+            if (ToggleButton("(Shift/Ctrl + ПКМ) Для ТП", &State.ShiftRightClickTP)) {
                 State.Save();
             }
             if (!State.SafeMode) ImGui::SameLine();
-            if (!State.SafeMode && ToggleButton("Hold ALT to Teleport Everyone", &State.TeleportEveryone)) {
+            if (!State.SafeMode && ToggleButton("Зажмите ALT для ТП Всех", &State.TeleportEveryone)) {
                 State.Save();
             }
-            if (ToggleButton((State.SafeMode ? "Rotate Everyone (Client-sided ONLY)" : "Rotate Everyone"), &State.RotateEveryone)) {
+            if (ToggleButton((State.SafeMode ? "Повернуть всех (Только для Вас)" : "Повернуть всех"), &State.RotateEveryone)) {
                 State.Save();
             }
-            if (!State.SafeMode) ImGui::SameLine();
-            if (!State.SafeMode && State.RotateEveryone && ToggleButton("Server-sided Rotation", &State.RotateServerSide)) {
+            if (!State.SafeMode && State.RotateEveryone && ToggleButton("Поворот Виден Всем", &State.RotateServerSide)) {
                 State.Save();
             }
-            if (ImGui::InputFloat("Rotation Radius", &State.RotateRadius, 0.0f, 0.0f, "%.2f m")) {
-                State.Save();
-            }
-
-            if (ImGui::InputFloat("X Coordinate", &State.xCoordinate, 0.0f, 0.0f, "%.4f X")) {
+            if (ImGui::InputFloat("Радус Поворота", &State.RotateRadius, 0.0f, 0.0f, "%.2f m")) {
                 State.Save();
             }
 
-            if (ImGui::InputFloat("Y Coordinate", &State.yCoordinate, 0.0f, 0.0f, "%.4f Y")) {
+            if (ImGui::InputFloat("X Координата", &State.xCoordinate, 0.0f, 0.0f, "%.4f X")) {
                 State.Save();
             }
 
-            if (ToggleButton("Relative Teleport", &State.RelativeTeleport)) {
+            if (ImGui::InputFloat("Y Координата", &State.yCoordinate, 0.0f, 0.0f, "%.4f Y")) {
+                State.Save();
+            }
+
+            if (ToggleButton("Относительный ТП", &State.RelativeTeleport)) {
                 State.Save();
             }
             if (IsInGame() || IsInLobby())
                 ImGui::SameLine();
-            if ((IsInGame() || IsInLobby()) && AnimatedButton("Get Current Position"))
+            if ((IsInGame() || IsInLobby()) && AnimatedButton("Получить Позицию"))
             {
                 Vector2 position = GetTrueAdjustedPosition(*Game::pLocalPlayer);
                 State.xCoordinate = position.x;
@@ -677,7 +681,7 @@ namespace SelfTab {
             if (IsInGame() || IsInLobby())
                 ImGui::SameLine();
 
-            if ((IsInGame() || IsInLobby()) && AnimatedButton("Teleport To"))
+            if ((IsInGame() || IsInLobby()) && AnimatedButton("ТП к"))
             {
                 Vector2 position = GetTrueAdjustedPosition(*Game::pLocalPlayer);
                 Vector2 target = { (State.RelativeTeleport ? position.x : 0.f) + State.xCoordinate, (State.RelativeTeleport ? position.y : 0.f) + State.yCoordinate };
@@ -690,7 +694,7 @@ namespace SelfTab {
             }
             if (!State.SafeMode && (IsInGame() || IsInLobby())) {
                 ImGui::SameLine();
-                if (AnimatedButton("Teleport Everyone To"))
+                if (AnimatedButton("ТП Всех к"))
                 {
                     Vector2 position = GetTrueAdjustedPosition(*Game::pLocalPlayer);
                     Vector2 target = { (State.RelativeTeleport ? position.x : 0.f) + State.xCoordinate, (State.RelativeTeleport ? position.y : 0.f) + State.yCoordinate };
@@ -705,10 +709,10 @@ namespace SelfTab {
                 }
             }
 
-            if (CustomListBoxInt("Select Role", &State.FakeRole, FAKEROLES, 100.0f * State.dpiScale))
+            if (CustomListBoxInt("Выбрать Роль", &State.FakeRole, FAKEROLES, 100.0f * State.dpiScale))
                 State.Save();
             ImGui::SameLine();
-            if ((IsHost() || !State.SafeMode) && (IsInGame() || IsInLobby()) && AnimatedButton("Set Role")) {
+            if ((IsHost() || !State.SafeMode) && (IsInGame() || IsInLobby()) && AnimatedButton("Установить")) {
                 State.FakeRole = std::clamp(State.FakeRole, 0, 10);
                 if (IsInGame())
                     State.rpcQueue.push(new RpcSetRole(*Game::pLocalPlayer, RoleTypes__Enum(State.FakeRole)));
@@ -716,7 +720,7 @@ namespace SelfTab {
                     State.lobbyRpcQueue.push(new RpcSetRole(*Game::pLocalPlayer, RoleTypes__Enum(State.FakeRole)));
             }
             if (IsHost() || !State.SafeMode) ImGui::SameLine();
-            if ((IsHost() || !State.SafeMode) && (IsInGame() || IsInLobby()) && AnimatedButton("Set for Everyone")) {
+            if ((IsHost() || !State.SafeMode) && (IsInGame() || IsInLobby()) && AnimatedButton("Установить Всем")) {
                 State.FakeRole = std::clamp(State.FakeRole, 0, 10);
                 if (IsInGame()) {
                     for (auto player : GetAllPlayerControl())
@@ -764,28 +768,28 @@ namespace SelfTab {
                 roleAllowed = false;
                 break;
             }
-            if ((IsInGame() || IsInLobby()) && (roleAllowed || (IsHost() || !State.SafeMode)) && AnimatedButton("Set Fake Role")) {
+            if ((IsInGame() || IsInLobby()) && (roleAllowed || (IsHost() || !State.SafeMode)) && AnimatedButton("Установить Фейк")) {
                 if (IsInGame())
                     State.rpcQueue.push(new SetRole(RoleTypes__Enum(State.FakeRole)));
                 else if (IsInLobby())
                     State.lobbyRpcQueue.push(new SetRole(RoleTypes__Enum(State.FakeRole)));
             }
             ImGui::SameLine();
-            if (ToggleButton("Automatically Set Fake Role", &State.AutoFakeRole)) {
+            if (ToggleButton("Авто Ставить Фейк Роль", &State.AutoFakeRole)) {
                 State.Save();
             }
             if (IsInLobby() || IsInGame()) {
                 ImGui::SameLine();
                 std::string roleText = FAKEROLES[int(State.RealRole)];
-                ImGui::Text(("Real Role: " + roleText).c_str());
+                ImGui::Text(("Реал. Роль: " + roleText).c_str());
             }
 
             if (!State.SafeMode) {
-                if (ToggleButton("Unlock Kill Button", &State.UnlockKillButton)) {
+                if (ToggleButton("Разбл. кнопку убийства", &State.UnlockKillButton)) {
                     State.Save();
                 }
                 ImGui::SameLine();
-                if (ToggleButton("Kill While Vanished", &State.KillInVanish)) {
+                if (ToggleButton("Убивать в невидимости", &State.KillInVanish)) {
                     State.Save();
                 }
                 /*if (ToggleButton("Bypass Guardian Angel Protections", &State.BypassAngelProt)) {
@@ -795,84 +799,84 @@ namespace SelfTab {
         }
 
         if (openRandomizers) {
-            if (ToggleButton("Cycler", &State.Cycler)) {
+            if (ToggleButton("Циклер", &State.Cycler)) {
                 State.Save();
             }
             ImGui::SameLine();
-            if (ToggleButton("Cycle in Meeting", &State.CycleInMeeting)) {
+            if (ToggleButton("Цикл на голосовании", &State.CycleInMeeting)) {
                 State.Save();
             }
             ImGui::SameLine();
-            if (ToggleButton("Cycle Between Players", &State.CycleBetweenPlayers)) {
+            if (ToggleButton("Цикл Между Игроками", &State.CycleBetweenPlayers)) {
                 State.Save();
             }
 
-            if (SteppedSliderFloat("Cycle Timer", &State.CycleTimer, 0.2f, 1.f, 0.02f, "%.2fs", ImGuiSliderFlags_Logarithmic | ImGuiSliderFlags_NoInput)) {
+            if (SteppedSliderFloat("Интервал", &State.CycleTimer, 0.2f, 1.f, 0.02f, "%.2fs", ImGuiSliderFlags_Logarithmic | ImGuiSliderFlags_NoInput)) {
                 State.PrevCycleTimer = State.CycleTimer;
                 State.CycleDuration = State.CycleTimer * 50;
             }
 
             ImGui::Dummy(ImVec2(4, 4) * State.dpiScale);
-            if (ImGui::CollapsingHeader("Cycler Options")) {
-                if (ToggleButton("Cycle Name", &State.CycleName)) {
+            if (ImGui::CollapsingHeader("Настройки Циклера")) {
+                if (ToggleButton("Цикл Ника", &State.CycleName)) {
                     State.Save();
                 }
 
 
                 ImGui::SameLine(120.0f * State.dpiScale);
-                if (ToggleButton("Cycle Color", &State.RandomColor)) {
+                if (ToggleButton("Цикл Цвета", &State.RandomColor)) {
                     State.Save();
                 }
 
                 ImGui::SameLine(240.0f * State.dpiScale);
-                if (ToggleButton("Cycle Hat", &State.RandomHat)) {
+                if (ToggleButton("Цикл Шляпы", &State.RandomHat)) {
                     State.Save();
                 }
 
-                if (ToggleButton("Cycle Visor", &State.RandomVisor)) {
+                if (ToggleButton("Цикл Визора", &State.RandomVisor)) {
                     State.Save();
                 }
 
                 ImGui::SameLine(120.0f * State.dpiScale);
-                if (ToggleButton("Cycle Skin", &State.RandomSkin)) {
+                if (ToggleButton("Цикл Одежды", &State.RandomSkin)) {
                     State.Save();
                 }
 
                 ImGui::SameLine(240.0f * State.dpiScale);
-                if (ToggleButton("Cycle Pet", &State.RandomPet)) {
+                if (ToggleButton("Цикл Питом.", &State.RandomPet)) {
                     State.Save();
                 }
 
-                if (ToggleButton("Cycle Nameplate", &State.RandomNamePlate)) {
+                if (ToggleButton("Цикл Фона Ника", &State.RandomNamePlate)) {
                     State.Save();
                 }
 
                 if (IsHost() || !State.SafeMode) {
                     ImGui::SameLine();
-                    if (ToggleButton(IsHost() ? "Cycle for Everyone (name & color only)" : "Cycle for Everyone", &State.CycleForEveryone)) {
+                    if (ToggleButton(IsHost() ? "Циклер на Всех (Только Ник и Цвет)" : "Циклер на Всех", &State.CycleForEveryone)) {
                         State.Save();
                     }
                 }
             }
 
 
-            if (ImGui::CollapsingHeader("Cycler Name Options")) {
-                if (CustomListBoxInt("Cycler Name Generation", &State.cyclerNameGeneration, NAMEGENERATION, 75 * State.dpiScale)) {
+            if (ImGui::CollapsingHeader("Настройки Цикла Ника")) {
+                if (CustomListBoxInt("Генерация Ника", &State.cyclerNameGeneration, NAMEGENERATION, 75 * State.dpiScale)) {
                     State.Save();
                 }
                 if (State.cyclerNameGeneration == 2) {
                     if (State.cyclerUserNames.empty())
-                        ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Username generation will fall back to word combo as you have no names in the cycler.");
+                        ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Генерация Ника Будет Работать Через Комбинации Слов, Потому что в Цикле нет Ников.");
                     static std::string newName = "";
-                    InputString("New Name", &newName, ImGuiInputTextFlags_EnterReturnsTrue);
+                    InputString("Новый Ник", &newName, ImGuiInputTextFlags_EnterReturnsTrue);
                     ImGui::SameLine();
-                    if (AnimatedButton("Add Name")) {
+                    if (AnimatedButton("Добавить Ник")) {
                         State.cyclerUserNames.push_back(newName);
                         State.Save();
                         newName = "";
                     }
                     if (!(IsHost() || !State.SafeMode) && !IsNameValid(newName)) {
-                        ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Username will be detected by anticheat. This name will be ignored.");
+                        ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Ник Обнаружается Античитом. Ник будет Проигнорен.");
                     }
                     if (!State.cyclerUserNames.empty()) {
                         static int selectedNameIndex = 0;
@@ -881,27 +885,27 @@ namespace SelfTab {
                         for (size_t i = 0; i < State.cyclerUserNames.size(); i++) {
                             nameVector[i] = State.cyclerUserNames[i].c_str();
                         }
-                        CustomListBoxInt("Cycler Name to Delete", &selectedNameIndex, nameVector);
+                        CustomListBoxInt("Ник для Удаления", &selectedNameIndex, nameVector);
                         ImGui::SameLine();
-                        if (AnimatedButton("Delete"))
+                        if (AnimatedButton("Удалить"))
                             State.cyclerUserNames.erase(State.cyclerUserNames.begin() + selectedNameIndex);
                     }
                 }
             }
 
-            if (ToggleButton("Confuser (Randomize Appearance at Will)", &State.confuser)) {
+            if (ToggleButton("Путание Вида", &State.confuser)) {
                 State.Save();
             }
 
-            if (ImGui::CollapsingHeader("Confuser Options")) {
-                if ((IsInGame() || IsInLobby()) && AnimatedButton("Confuse Now")) {
+            if (ImGui::CollapsingHeader("Настройки Запутания")) {
+                if ((IsInGame() || IsInLobby()) && AnimatedButton("Запутать Вид")) {
                     ControlAppearance(true);
                 }
                 if (IsInGame() || IsInLobby()) {
                     if (IsHost() || !State.SafeMode)
                         ImGui::SameLine();
                 }
-                if ((IsInGame() || IsInLobby()) && !State.SafeMode && AnimatedButton("Randomize Everyone")) {
+                if ((IsInGame() || IsInLobby()) && !State.SafeMode && AnimatedButton("Рандомизировать Всех")) {
                     std::queue<RPCInterface*>* queue = nullptr;
                     if (IsInGame())
                         queue = &State.rpcQueue;
@@ -935,44 +939,44 @@ namespace SelfTab {
                     }
                 }
 
-                ImGui::Text("Confuse when:");
-                if (ToggleButton("Joining Lobby", &State.confuseOnJoin)) {
+                ImGui::Text("Путаться при:");
+                if (ToggleButton("Заходе в Лобби", &State.confuseOnJoin)) {
                     State.Save();
                 }
                 ImGui::SameLine();
-                if (ToggleButton("Game Starts", &State.confuseOnStart)) {
+                if (ToggleButton("Начале Игры", &State.confuseOnStart)) {
                     State.Save();
                 }
                 ImGui::SameLine();
-                if (ToggleButton("Killing", &State.confuseOnKill)) {
+                if (ToggleButton("Убийстве", &State.confuseOnKill)) {
                     State.Save();
                 }
                 ImGui::SameLine();
-                if (ToggleButton("Venting", &State.confuseOnVent)) {
+                if (ToggleButton("В Люке", &State.confuseOnVent)) {
                     State.Save();
                 }
-                ImGui::SameLine();
-                if (ToggleButton("Meeting", &State.confuseOnMeeting)) {
+
+                if (ToggleButton("На Голосовании", &State.confuseOnMeeting)) {
                     State.Save();
                 }
             }
-            if (ImGui::CollapsingHeader("Confuser Name Options")) {
-                if (CustomListBoxInt("Confuser Name Generation", &State.confuserNameGeneration, NAMEGENERATION, 75 * State.dpiScale)) {
+            if (ImGui::CollapsingHeader("Настройки Путания Ника")) {
+                if (CustomListBoxInt("Генерация Ника", &State.confuserNameGeneration, NAMEGENERATION, 75 * State.dpiScale)) {
                     State.Save();
                 }
                 if (State.confuserNameGeneration == 2) {
                     if (State.cyclerUserNames.empty())
-                        ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Username generation will fall back to word combo as you have no names in the cycler.");
+                        ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Генерация Ника Будет Работать Через Комбинации Слов, Потому что в Цикле нет Ников.");
                     static std::string newName = "";
-                    InputString("New Name ", &newName, ImGuiInputTextFlags_EnterReturnsTrue);
+                    InputString("Новый Ник ", &newName, ImGuiInputTextFlags_EnterReturnsTrue);
                     ImGui::SameLine();
-                    if (AnimatedButton("Add Name ")) {
+                    if (AnimatedButton("Добавить Ник ")) {
                         State.cyclerUserNames.push_back(newName);
                         State.Save();
                         newName = "";
                     }
                     if (!(IsHost() || !State.SafeMode) && !IsNameValid(newName)) {
-                        ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Username will be detected by anticheat. This name will be ignored.");
+                        ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Ник Обнаружается Античитом. Ник будет Проигнорен.");
                     }
                     if (!State.cyclerUserNames.empty()) {
                         static int selectedNameIndex = 0;
@@ -981,56 +985,56 @@ namespace SelfTab {
                         for (size_t i = 0; i < State.cyclerUserNames.size(); i++) {
                             nameVector[i] = State.cyclerUserNames[i].c_str();
                         }
-                        CustomListBoxInt("Confuser Name to Delete", &selectedNameIndex, nameVector);
+                        CustomListBoxInt("Ник для Удаления", &selectedNameIndex, nameVector);
                         ImGui::SameLine();
-                        if (AnimatedButton("Delete "))
+                        if (AnimatedButton("Удалить "))
                             State.cyclerUserNames.erase(State.cyclerUserNames.begin() + selectedNameIndex);
                     }
                 }
             }
         }
         if (openTextEditor) {
-            InputString("Input", &originalText);
+            InputString("Вход", &originalText);
             editedText = GetTextEditorName(originalText);
-            InputString("Output", &editedText);
+            InputString("Выход", &editedText);
             ImGui::SameLine();
-            if (AnimatedButton("Copy")) ClipboardHelper_PutClipboardString(convert_to_string(editedText), NULL);
+            if (AnimatedButton("Скопировать")) ClipboardHelper_PutClipboardString(convert_to_string(editedText), NULL);
 
-            if (ToggleButton("Italics", &italicName)) {
+            if (ToggleButton("Курсив", &italicName)) {
                 State.Save();
             }
             ImGui::SameLine();
-            if (ToggleButton("Underline", &underlineName)) {
+            if (ToggleButton("Подчеркнутый", &underlineName)) {
                 State.Save();
             }
             ImGui::SameLine();
-            if (ToggleButton("Strikethrough", &strikethroughName)) {
+            if (ToggleButton("Зачеркнутый", &strikethroughName)) {
                 State.Save();
             }
             ImGui::SameLine();
-            if (ToggleButton("Bold", &boldName)) {
-                State.Save();
-            }
-            ImGui::SameLine();
-            if (ToggleButton("Nobr", &nobrName)) {
+            if (ToggleButton("Толстый", &boldName)) {
                 State.Save();
             }
 
-            if (ImGui::ColorEdit4("Starting Gradient Color", (float*)&nameColor1, ImGuiColorEditFlags__OptionsDefault | ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_AlphaBar | ImGuiColorEditFlags_AlphaPreview)) {
+            if (ToggleButton("Без переноса", &nobrName)) {
+                State.Save();
+            }
+
+            if (ImGui::ColorEdit4("Начало Градиента", (float*)&nameColor1, ImGuiColorEditFlags__OptionsDefault | ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_AlphaBar | ImGuiColorEditFlags_AlphaPreview)) {
                 State.Save();
             }
             ImGui::SameLine();
-            if (ImGui::ColorEdit4("Ending Gradient Color", (float*)&nameColor2, ImGuiColorEditFlags__OptionsDefault | ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_AlphaBar | ImGuiColorEditFlags_AlphaPreview)) {
+            if (ImGui::ColorEdit4("Конец Градиента", (float*)&nameColor2, ImGuiColorEditFlags__OptionsDefault | ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_AlphaBar | ImGuiColorEditFlags_AlphaPreview)) {
                 State.Save();
             }
             ImGui::SameLine();
-            if (ToggleButton("Colored", &coloredName)) {
+            if (ToggleButton("Цветной", &coloredName)) {
                 State.Save();
             }
 
             ImGui::Dummy(ImVec2(2, 2) * State.dpiScale);
 
-            if (ToggleButton("Font", &font)) {
+            if (ToggleButton("Шрифт", &font)) {
                 State.Save();
             }
             ImGui::SameLine();
@@ -1038,7 +1042,7 @@ namespace SelfTab {
                 State.Save();
             }
             ImGui::Dummy(ImVec2(-5, -5) * State.dpiScale);
-            if (State.Font) ImGui::TextColored(ImVec4(1.0f, 1.0f, 1.0f, 1.0f), ("Note: The white nickname will not be visible in the chat"));
+            if (State.Font) ImGui::TextColored(ImVec4(1.0f, 1.0f, 1.0f, 1.0f), ("Примечание: Белый Ник не Будет Виден в Чате"));
 
             ImGui::Dummy(ImVec2(2, 2) * State.dpiScale);
 
@@ -1051,62 +1055,62 @@ namespace SelfTab {
             }*/
 
             ImGui::Dummy(ImVec2(10, 10) * State.dpiScale);
-            if (ToggleButton("Size", &resizeName)) {
+            if (ToggleButton("Размер", &resizeName)) {
                 State.Save();
             }
 
             ImGui::SameLine();
-            if (ImGui::InputFloat("Name Size", &nameSize)) {
+            if (ImGui::InputFloat("", &nameSize)) {
                 State.Save();
             }
 
             ImGui::Dummy(ImVec2(5, 5) * State.dpiScale);
-            if (ToggleButton("Indent", &indentName)) {
+            if (ToggleButton("Отступ", &indentName)) {
                 State.Save();
             }
 
             ImGui::SameLine();
-            if (ImGui::InputFloat("Name Indent", &indentLevel)) {
+            if (ImGui::InputFloat("", &indentLevel)) {
                 State.Save();
             }
 
             ImGui::Dummy(ImVec2(5, 5) * State.dpiScale);
-            if (ToggleButton("Cspace", &cspaceName)) {
+            if (ToggleButton("Интервал", &cspaceName)) {
                 State.Save();
             }
 
             ImGui::SameLine();
-            if (ImGui::InputFloat("Name Cspace", &cspaceLevel)) {
+            if (ImGui::InputFloat("Символов", &cspaceLevel)) {
                 State.Save();
             }
 
             ImGui::Dummy(ImVec2(5, 5) * State.dpiScale);
-            if (ToggleButton("Mspace", &mspaceName)) {
+            if (ToggleButton("Межстроч.", &mspaceName)) {
                 State.Save();
             }
 
             ImGui::SameLine();
-            if (ImGui::InputFloat("Name Mspace", &mspaceLevel)) {
+            if (ImGui::InputFloat("Растоян.", &mspaceLevel)) {
                 State.Save();
             }
 
             ImGui::Dummy(ImVec2(5, 5) * State.dpiScale);
-            if (ToggleButton("Voffset", &voffsetName)) {
+            if (ToggleButton("Верт. Сдвиг", &voffsetName)) {
                 State.Save();
             }
 
             ImGui::SameLine();
-            if (ImGui::InputFloat("Name Voffset", &voffsetLevel)) {
+            if (ImGui::InputFloat("", &voffsetLevel)) {
                 State.Save();
             }
 
             ImGui::Dummy(ImVec2(5, 5) * State.dpiScale);
-            if (ToggleButton("Rotate", &rotateName)) {
+            if (ToggleButton("Поворот", &rotateName)) {
                 State.Save();
             }
 
             ImGui::SameLine();
-            if (ImGui::InputFloat("Rotation Angle", &rotateAngle)) {
+            if (ImGui::InputFloat("Угол", &rotateAngle)) {
                 State.Save();
             }
         }

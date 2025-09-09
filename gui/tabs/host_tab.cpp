@@ -246,7 +246,7 @@ namespace HostTab {
 				const int32_t minPlayers = 4, maxAllowedPlayers = static_cast<int32_t>(Game::MAX_PLAYERS);
 				int32_t newMaxPlayers = std::clamp(currentMaxPlayers, minPlayers, maxAllowedPlayers);
 #define LocalInLobby (((*Game::pAmongUsClient)->fields._.NetworkMode == NetworkModes__Enum::LocalGame) && ((*Game::pAmongUsClient)->fields._.GameState == InnerNetClient_GameStates__Enum::Joined))
-				if ((LocalInLobby || !State.SafeMode) && IsInLobby() && ImGui::InputInt("Max Players", &newMaxPlayers)) {
+				if ((LocalInLobby || !State.SafeMode) && IsInLobby() && ImGui::InputInt("Макс. Игроков", &newMaxPlayers)) {
 					newMaxPlayers = std::clamp(newMaxPlayers, minPlayers, maxAllowedPlayers);
 					GameOptions().SetInt(app::Int32OptionNames__Enum::MaxPlayers, newMaxPlayers);
 					SyncAllSettings();
@@ -402,7 +402,7 @@ namespace HostTab {
 					}
 				}*/
 
-				if (ToggleButton("Разблокировать кнопку убийства", &State.UnlockKillButton)) {
+				if (ToggleButton("Разбл. кнопку убийства", &State.UnlockKillButton)) {
 					State.Save();
 				}
 
